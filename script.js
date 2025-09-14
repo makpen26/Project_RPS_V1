@@ -1,19 +1,38 @@
-function getComputerChoice() {
-    let getHandValue = Math.floor(Math.random() * 3) + 1;
-    let getHandValueAsText = ' ';
-    switch (getHandValue) {
+function generateRandomIntUpto (maxInt, numToShiftBy=0) {
+    return Math.floor(Math.random() * maxInt) + numToShiftBy;
+}
+
+
+
+
+
+
+function matchIntegerToHandChoice (intToMatch) {
+    let singleHandValue = '';
+
+    switch (intToMatch) {
         case 1: 
-            getHandValueAsText = 'rock';
+            singleHandValue = 'rock';
             break;
-        case 2:
-            getHandValueAsText = 'paper';
+        case 2: 
+            singleHandValue = 'paper';
             break;
         case 3:
-            getHandValueAsText = 'scissors';
+            singleHandValue = 'scissors';
             break;
     }
 
-    return getHandValueAsText;
+    return singleHandValue;
+}
+
+
+
+
+
+
+function getComputerChoice() {
+    let getHandValue = generateRandomIntUpto(3, 1);
+    return matchIntegerToHandChoice(getHandValue);
 }
 
 
@@ -22,71 +41,57 @@ function getComputerChoice() {
 
 
 function getHumanChoice() {
-    let getHumanHandValue = prompt('Which hand do you want to play? (1 for rock, 2 for paper, 3 for scissors)');
-    //I have to parse the input from user to integer to be able to get an integer comparison. Otherwise, comparison is off.
-    let userHandChoice = ' ';
-    if (parseInt(getHumanHandValue) === 1) {
-        userHandChoice = 'rock';
-    } else if (parseInt(getHumanHandValue) === 2) {
-        userHandChoice = 'paper';
+    let getHumanHandValue = prompt('Pick hands value (Rock, Paper, Scissors)');
+    let userHandChoice = '';
+    if (getHumanHandValue.toLowerCase() === 'rock') {
+        userHandChoice = matchIntegerToHandChoice(1);
+    } else if ((getHumanHandValue).toLowerCase() === 'paper') {
+        userHandChoice = matchIntegerToHandChoice(2);
     } else {
-        userHandChoice = 'scissors';
+        userHandChoice = matchIntegerToHandChoice(3);
     }
 
     return userHandChoice;
 }
 
 
-let humanScore = 0;
-let computerScore = 0;
+
 
 
 
 function playRound(humanChoice, computerChoice) {
-
-    /*
-    let humanScore = 0;
-    let computerScore = 0;
-    */
-    let oneRoundWhoWin = 'none'; //'c', 'h', 'none'
-
-    if (humanChoice.toUpperCase() === computerChoice.toUpperCase()) {
-        console.log("Tie! Computer and Human play the same hand.");
+    let decisionMessage = 'Tie! Neither players win or lose';
+    let humanIsWinning = false;
+    if (humanChoice === computerChoice) {
+        console.log(decisionMessage);
+        return null;
     } else {
-        if (humanChoice.charAt(0).toUpperCase() === 'R') {
-            if (computerChoice.charAt(0).toUpperCase() === 'P') {
-                computerScore += 1;
-                oneRoundWhoWin = 'c';
-                console.log("You play rock. Computer plays paper. You lose.");
-            } else {
-                humanScore += 1;
-                console.log("You play rock. Computer plays scissors. You win!");
-                oneRoundWhoWin = 'h';
-            }
-        } else if (humanChoice.charAt(0).toUpperCase() === 'P') {
-            if (computerChoice.charAt(0).toUpperCase() === 'R') {
-                humanScore += 1;
-                console.log("You play paper. Computer plays rock. You win!");
-                oneRoundWhoWin = 'h';
-            } else {
-                computerScore += 1;
-                console.log("You play paper. Computer plays scissors. You lose.");
-                oneRoundWhoWin = 'c';
-            }
-        } else {
-            if (computerChoice.charAt(0).toUpperCase() === 'R') {
-                computerScore += 1;
-                console.log("You play scissors. Computer plays rock. You lose.");
-                oneRoundWhoWin = 'c';
-            } else {
-                humanScore += 1;
-                console.log("You play scissors. Computer plays paper. You win!");
-                oneRoundWhoWin = 'h';
-            }
+        if (humanChoice === matchIntegerToHandChoice(1) && computerChoice === matchIntegerToHandChoice(2)) {
+            decisionMessage = "You lose! Paper beats Rock.";
+            console.log(decisionMessage);
+            return humanIsWinning;
+        } else if (humanChoice === matchIntegerToHandChoice(2) && computerChoice === matchIntegerToHandChoice(3)) {
+            decisionMessage = "You lose! Scissors beat Paper.";
+            console.log(decisionMessage);
+            return humanIsWinning;
+        } else if (humanChoice === matchIntegerToHandChoice(3) && computerChoice === matchIntegerToHandChoice(1)) {
+            decisionMessage = "You lose! Rock beats Scissors.";
+            console.log(decisionMessage);
+            return humanIsWinning;
+        } else if (humanChoice === matchIntegerToHandChoice(1) && computerChoice === matchIntegerToHandChoice(3)) {
+            decisionMessage = "You win! Rock beats Scissors.";
+            console.log(decisionMessage);
+            return !humanIsWinning;
+        } else if (humanChoice === matchIntegerToHandChoice(3) && computerChoice === matchIntegerToHandChoice(2)) {
+            decisionMessage = "You win! Scissors beat Paper.";
+            console.log(decisionMessage);
+            return !humanIsWinning;
+        } else if (humanChoice === matchIntegerToHandChoice(2) && computerChoice === matchIntegerToHandChoice(1)) {
+            decisionMessage = "You win! Paper beats Rock.";
+            console.log(decisionMessage);
+            return !humanIsWinning;
         }
     }
-
-    return oneRoundWhoWin;
 }
 
 
@@ -95,67 +100,68 @@ function playRound(humanChoice, computerChoice) {
 
 
 function playGame() {
-    const humanSelection = getHumanChoice();
-    const computerSelection = getComputerChoice();
-    playRound(humanSelection, computerSelection);
-    //let x = checkWhoIsWinning(playRound(humanSelection, computerSelection).toLowerCase());
-    /*playRound(humanSelection, computerSelection).toLowerCase() === 'none' ?   ignore : call function to check for 'human wins' and call function to check for 
-                                                                               'computer wins'*/
+    let humanScore = 0;
+    let computerScore = 0;
 
-    
-    //playRound(humanSelection, computerSelection).toLowerCase() === 'none' ? x = 0 : x += x;
-    //console.log(x);
-    
-    const humanSelection1 = getHumanChoice();
-    const computerSelection1 = getComputerChoice();
-    playRound(humanSelection1, computerSelection1);
-    //let x1 = checkWhoIsWinning(playRound(humanSelection1, computerSelection1).toLowerCase());
-    //playRound(humanSelection1, computerSelection1).toLowerCase() === 'none' ? x1 = 0 : x1 += x1;
-    //console.log(x1);    
-    //console.log(playRound(humanSelection1, computerSelection1));
-    
-    const humanSelection2 = getHumanChoice();
-    const computerSelection2 = getComputerChoice();
-    playRound(humanSelection2, computerSelection2);
-    //let x2 = checkWhoIsWinning(playRound(humanSelection2, computerSelection2).toLowerCase());
-    //playRound(humanSelection2, computerSelection2).toLowerCase() === 'none' ? x2 = 0 : x2 += x2;
-    //console.log(x2);        
-    //console.log(playRound(humanSelection2, computerSelection2));
+    const round1HumanSelection = getHumanChoice();
+    const round1ComputerSelection = getComputerChoice();
+    let round1WinnerResult = playRound(round1HumanSelection, round1ComputerSelection);
+    if (!(round1WinnerResult == null)) {
+        round1WinnerResult ? humanScore += 1 : computerScore += 1;
+    } else {
+        humanScore = humanScore;
+        computerScore = computerScore;
+    }
 
-    const humanSelection3 = getHumanChoice();
-    const computerSelection3 = getComputerChoice();
-    playRound(humanSelection3, computerSelection3);
-    //let x3 = checkWhoIsWinning(playRound(humanSelection3, computerSelection3).toLowerCase());
-    //playRound(humanSelection3, computerSelection3).toLowerCase() === 'none' ? x3 = 0 : x3 += x3;
-    //console.log(x3);    
-    //console.log(playRound(humanSelection3, computerSelection3));
 
-    const humanSelection4 = getHumanChoice();
-    const computerSelection4 = getComputerChoice();
-    playRound(humanSelection4, computerSelection4);
-    //let x4 = checkWhoIsWinning(playRound(humanSelection4, computerSelection4).toLowerCase());
-    //playRound(humanSelection4, computerSelection4).toLowerCase() === 'none' ? x4 = 0 : x4 += x4;
-    //console.log(x4);        
-    //console.log(playRound(humanSelection4, computerSelection4));
-    
-    
+    const round2HumanSelection = getHumanChoice();
+    const round2ComputerSelection = getComputerChoice();
+    let round2WinnerResult = playRound(round2HumanSelection, round2ComputerSelection);
+    if (!(round2WinnerResult == null)) {
+        round2WinnerResult ? humanScore += 1 : computerScore += 1;
+    } else {
+        humanScore = humanScore;
+        computerScore = computerScore;
+    }
 
-    
-    console.log(`human score: ${humanScore}`);
-    console.log(`computer score: ${computerScore}`);
-    console.log("\n");
-    console.log(`Tie ${5 - (humanScore + computerScore)} many time(s).`);
-    
+
+    const round3HumanSelection = getHumanChoice();
+    const round3ComputerSelection = getComputerChoice();
+    let round3WinnerResult = playRound(round3HumanSelection, round3ComputerSelection);
+    if (!(round3WinnerResult == null)) {
+        round3WinnerResult ? humanScore += 1 : computerScore += 1;
+    } else {
+        humanScore = humanScore;
+        computerScore = computerScore;
+    }
+
+    const round4HumanSelection = getHumanChoice();
+    const round4ComputerSelection = getComputerChoice();
+    let round4WinnerResult = playRound(round4HumanSelection, round4ComputerSelection);
+    if (!(round4WinnerResult == null)) {
+        round4WinnerResult ? humanScore += 1 : computerScore += 1;
+    } else {
+        humanScore = humanScore;
+        computerScore = computerScore;
+    }
+
+    const round5HumanSelection = getHumanChoice();
+    const round5ComputerSelection = getComputerChoice();
+    let round5WinnerResult = playRound(round5HumanSelection, round5ComputerSelection);
+    if (!(round5WinnerResult == null)) {
+        round5WinnerResult ? humanScore += 1 : computerScore += 1;
+    } else {
+        humanScore = humanScore;
+        computerScore = computerScore;
+    }
+
+    console.log(`total human score = ${humanScore}`);
+    console.log(`total computer score = ${computerScore}`);
+    console.log(`total ties ${5 - (humanScore + computerScore)}`);
 }
 
 
 
-
-function checkWhoIsWinning(inputString) {
-    let computerWon = 0;
-    let humanWon = 0;
-    return (inputString.toLowerCase() === 'c') ? computerWon += 1 : humanWon += 1;
-}
 
 
 
