@@ -106,6 +106,7 @@ function playGame() {
     const round1HumanSelection = getHumanChoice();
     const round1ComputerSelection = getComputerChoice();
     let round1WinnerResult = playRound(round1HumanSelection, round1ComputerSelection);
+
     if (!(round1WinnerResult == null)) {
         round1WinnerResult ? humanScore += 1 : computerScore += 1;
     } else {
@@ -117,6 +118,7 @@ function playGame() {
     const round2HumanSelection = getHumanChoice();
     const round2ComputerSelection = getComputerChoice();
     let round2WinnerResult = playRound(round2HumanSelection, round2ComputerSelection);
+    
     if (!(round2WinnerResult == null)) {
         round2WinnerResult ? humanScore += 1 : computerScore += 1;
     } else {
@@ -128,6 +130,7 @@ function playGame() {
     const round3HumanSelection = getHumanChoice();
     const round3ComputerSelection = getComputerChoice();
     let round3WinnerResult = playRound(round3HumanSelection, round3ComputerSelection);
+
     if (!(round3WinnerResult == null)) {
         round3WinnerResult ? humanScore += 1 : computerScore += 1;
     } else {
@@ -138,6 +141,7 @@ function playGame() {
     const round4HumanSelection = getHumanChoice();
     const round4ComputerSelection = getComputerChoice();
     let round4WinnerResult = playRound(round4HumanSelection, round4ComputerSelection);
+
     if (!(round4WinnerResult == null)) {
         round4WinnerResult ? humanScore += 1 : computerScore += 1;
     } else {
@@ -148,6 +152,7 @@ function playGame() {
     const round5HumanSelection = getHumanChoice();
     const round5ComputerSelection = getComputerChoice();
     let round5WinnerResult = playRound(round5HumanSelection, round5ComputerSelection);
+    
     if (!(round5WinnerResult == null)) {
         round5WinnerResult ? humanScore += 1 : computerScore += 1;
     } else {
