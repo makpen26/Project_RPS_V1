@@ -40,25 +40,6 @@ function getComputerChoice() {
 
 
 
-function getHumanChoice() {
-    let getHumanHandValue = prompt('Pick hands value (Rock, Paper, Scissors)');
-    let userHandChoice = '';
-    if (getHumanHandValue.toLowerCase() === 'rock') {
-        userHandChoice = matchIntegerToHandChoice(1);
-    } else if ((getHumanHandValue).toLowerCase() === 'paper') {
-        userHandChoice = matchIntegerToHandChoice(2);
-    } else {
-        userHandChoice = matchIntegerToHandChoice(3);
-    }
-
-    return userHandChoice;
-}
-
-
-
-
-
-
 function playRound(humanChoice, computerChoice) {
     let decisionMessage = 'Tie! Neither players win or lose';
     let humanIsWinning = false;
@@ -99,79 +80,52 @@ function playRound(humanChoice, computerChoice) {
 
 
 
-function playGame() {
-    let humanScore = 0;
-    let computerScore = 0;
+let allHandsButton = document.querySelector('#human-hands-choices');
 
-    const round1HumanSelection = getHumanChoice();
-    const round1ComputerSelection = getComputerChoice();
-    let round1WinnerResult = playRound(round1HumanSelection, round1ComputerSelection);
+let humanScore = 0;
+let computerScore = 0;
 
-    if (!(round1WinnerResult == null)) {
-        round1WinnerResult ? humanScore += 1 : computerScore += 1;
-    } else {
-        humanScore = humanScore;
-        computerScore = computerScore;
+allHandsButton.addEventListener('click', (event) => {
+    let target = event.target;
+
+    switch (target.id) {
+        case 'rock':
+            const humanSelectedRock = event.target.id;
+            const computerSelectedRock = getComputerChoice();
+            let round1WinnerResult = playRound(humanSelectedRock, computerSelectedRock);
+            if (!(round1WinnerResult == null)) {
+                round1WinnerResult ? humanScore += 1 : computerScore += 1;
+            } else {
+                humanScore = humanScore;
+                computerScore = computerScore;
+            }
+            break;
+        case 'paper':
+            const humanSelectedPaper = event.target.id;
+            const computerSelectedPaper = getComputerChoice();
+            let round2WinnerResult = playRound(humanSelectedPaper, computerSelectedPaper);
+            if (!(round2WinnerResult == null)) {
+                round2WinnerResult ? humanScore += 1 : computerScore += 1;
+            } else {
+                humanScore = humanScore;
+                computerScore = computerScore;
+            }
+            break;
+        case 'scissors':
+            const humanSelectedScissors = event.target.id;
+            const computerSelectedScissors = getComputerChoice();
+            let round3WinnerResult = playRound(humanSelectedScissors, computerSelectedScissors);
+            if (!(round3WinnerResult == null)) {
+                round3WinnerResult ? humanScore += 1 : computerScore += 1;
+            } else {
+                humanScore = humanScore;
+                computerScore = computerScore;
+            }
+            break;
     }
 
-
-    const round2HumanSelection = getHumanChoice();
-    const round2ComputerSelection = getComputerChoice();
-    let round2WinnerResult = playRound(round2HumanSelection, round2ComputerSelection);
-    
-    if (!(round2WinnerResult == null)) {
-        round2WinnerResult ? humanScore += 1 : computerScore += 1;
-    } else {
-        humanScore = humanScore;
-        computerScore = computerScore;
-    }
-
-
-    const round3HumanSelection = getHumanChoice();
-    const round3ComputerSelection = getComputerChoice();
-    let round3WinnerResult = playRound(round3HumanSelection, round3ComputerSelection);
-
-    if (!(round3WinnerResult == null)) {
-        round3WinnerResult ? humanScore += 1 : computerScore += 1;
-    } else {
-        humanScore = humanScore;
-        computerScore = computerScore;
-    }
-
-    const round4HumanSelection = getHumanChoice();
-    const round4ComputerSelection = getComputerChoice();
-    let round4WinnerResult = playRound(round4HumanSelection, round4ComputerSelection);
-
-    if (!(round4WinnerResult == null)) {
-        round4WinnerResult ? humanScore += 1 : computerScore += 1;
-    } else {
-        humanScore = humanScore;
-        computerScore = computerScore;
-    }
-
-    const round5HumanSelection = getHumanChoice();
-    const round5ComputerSelection = getComputerChoice();
-    let round5WinnerResult = playRound(round5HumanSelection, round5ComputerSelection);
-    
-    if (!(round5WinnerResult == null)) {
-        round5WinnerResult ? humanScore += 1 : computerScore += 1;
-    } else {
-        humanScore = humanScore;
-        computerScore = computerScore;
-    }
-
-    console.log(`total human score = ${humanScore}`);
-    console.log(`total computer score = ${computerScore}`);
-    console.log(`total ties ${5 - (humanScore + computerScore)}`);
-}
-
-
-
-
-
-
-
-
-playGame();
-
-
+    console.log("\n");
+    console.log(`human score = ${humanScore}`);
+    console.log(`computer score = ${computerScore}`);
+    console.log("\n");
+});
