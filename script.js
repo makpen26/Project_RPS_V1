@@ -40,36 +40,57 @@ function getComputerChoice() {
 
 
 
+const linkResultDiv = document.createElement("div");
+linkResultDiv.setAttribute("id", "result-Div");
+document.body.appendChild(linkResultDiv);
+
+
+const decisionContent = document.createElement("p");
+decisionContent.classList.add("resultDisplay");
+
+
+
+
+
+
 function playRound(humanChoice, computerChoice) {
     let decisionMessage = 'Tie! Neither players win or lose';
     let humanIsWinning = false;
+
     if (humanChoice === computerChoice) {
-        console.log(decisionMessage);
+        decisionContent.textContent = decisionMessage;
+        linkResultDiv.appendChild(decisionContent);
         return null;
     } else {
         if (humanChoice === matchIntegerToHandChoice(1) && computerChoice === matchIntegerToHandChoice(2)) {
             decisionMessage = "You lose! Paper beats Rock.";
-            console.log(decisionMessage);
+            decisionContent.textContent = decisionMessage;
+            linkResultDiv.appendChild(decisionContent);
             return humanIsWinning;
         } else if (humanChoice === matchIntegerToHandChoice(2) && computerChoice === matchIntegerToHandChoice(3)) {
             decisionMessage = "You lose! Scissors beat Paper.";
-            console.log(decisionMessage);
+            decisionContent.textContent = decisionMessage;
+            linkResultDiv.appendChild(decisionContent);
             return humanIsWinning;
         } else if (humanChoice === matchIntegerToHandChoice(3) && computerChoice === matchIntegerToHandChoice(1)) {
             decisionMessage = "You lose! Rock beats Scissors.";
-            console.log(decisionMessage);
+            decisionContent.textContent = decisionMessage;
+            linkResultDiv.appendChild(decisionContent);
             return humanIsWinning;
         } else if (humanChoice === matchIntegerToHandChoice(1) && computerChoice === matchIntegerToHandChoice(3)) {
             decisionMessage = "You win! Rock beats Scissors.";
-            console.log(decisionMessage);
+            decisionContent.textContent = decisionMessage;
+            linkResultDiv.appendChild(decisionContent); 
             return !humanIsWinning;
         } else if (humanChoice === matchIntegerToHandChoice(3) && computerChoice === matchIntegerToHandChoice(2)) {
             decisionMessage = "You win! Scissors beat Paper.";
-            console.log(decisionMessage);
+            decisionContent.textContent = decisionMessage;
+            linkResultDiv.appendChild(decisionContent);
             return !humanIsWinning;
         } else if (humanChoice === matchIntegerToHandChoice(2) && computerChoice === matchIntegerToHandChoice(1)) {
             decisionMessage = "You win! Paper beats Rock.";
-            console.log(decisionMessage);
+            decisionContent.textContent = decisionMessage;
+            linkResultDiv.appendChild(decisionContent); 
             return !humanIsWinning;
         }
     }
@@ -80,10 +101,36 @@ function playRound(humanChoice, computerChoice) {
 
 
 
+const roundNumberUpdate = document.querySelector(".round-tracking");
+
+
 let allHandsButton = document.querySelector('#human-hands-choices');
+
+
+
+
 
 let humanScore = 0;
 let computerScore = 0;
+
+
+let roundCounter = 0;
+
+
+const scoreBoardHuman = document.createElement("h3");
+scoreBoardHuman.classList.add("scoreBoard");
+
+
+const scoreBoardComputer = document.createElement("h3");
+scoreBoardComputer.classList.add("scoreBoard");
+
+
+const winnerAfter5RoundsPlayed = document.createElement("div");
+winnerAfter5RoundsPlayed.classList.add("winnerAnnounced");
+
+
+
+
 
 allHandsButton.addEventListener('click', (event) => {
     let target = event.target;
@@ -99,6 +146,8 @@ allHandsButton.addEventListener('click', (event) => {
                 humanScore = humanScore;
                 computerScore = computerScore;
             }
+            roundCounter += 1;
+            roundNumberUpdate.textContent = `Round ${roundCounter}`;
             break;
         case 'paper':
             const humanSelectedPaper = event.target.id;
@@ -110,6 +159,8 @@ allHandsButton.addEventListener('click', (event) => {
                 humanScore = humanScore;
                 computerScore = computerScore;
             }
+            roundCounter += 1;
+            roundNumberUpdate.textContent = `Round ${roundCounter}`;
             break;
         case 'scissors':
             const humanSelectedScissors = event.target.id;
@@ -121,11 +172,50 @@ allHandsButton.addEventListener('click', (event) => {
                 humanScore = humanScore;
                 computerScore = computerScore;
             }
+            roundCounter += 1;
+            roundNumberUpdate.textContent = `Round ${roundCounter}`;
             break;
     }
 
-    console.log("\n");
-    console.log(`human score = ${humanScore}`);
-    console.log(`computer score = ${computerScore}`);
-    console.log("\n");
+    scoreBoardHuman.textContent = `human score ${humanScore}`;
+    scoreBoardComputer.textContent = `computer score ${computerScore}`;
+
+    if (humanScore === 5) {
+        winnerAfter5RoundsPlayed.textContent = 'You are the first to score 5. You win!';
+        humanScore = 0;
+        computerScore = 0;
+        roundCounter = 0;
+    } 
+
+    if (computerScore === 5) {
+        winnerAfter5RoundsPlayed.textContent = "Computer is the first to score 5. You lose!";
+        humanScore = 0;
+        computerScore = 0;
+        roundCounter = 0;
+    }
+    
+    linkResultDiv.appendChild(scoreBoardHuman);
+    linkResultDiv.appendChild(scoreBoardComputer);
+    linkResultDiv.appendChild(winnerAfter5RoundsPlayed);
 });
+
+
+let resetButton = document.querySelector('#resetBtn');
+resetButton.addEventListener('click', () => {
+    winnerAfter5RoundsPlayed.textContent = '';
+    humanScore = 0;
+    computerScore = 0;
+    roundCounter = 0;
+    roundNumberUpdate.textContent = `Round ${roundCounter}`;
+    scoreBoardHuman.textContent = `human score ${humanScore}`;
+    scoreBoardComputer.textContent = `computer score ${computerScore}`;
+    //linkResultDiv.removeChild(decisionContent); //works but will need at least a button click. Otherwise, not found error
+    
+});
+
+
+
+
+
+
+
